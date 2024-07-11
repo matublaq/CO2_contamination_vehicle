@@ -26,3 +26,46 @@ plt.scatter(df['Fuel_consumption_(l/100km)'], df['CO2_emission_(g/km)'], color='
 plt.xlabel('Fuel consumption')
 plt.ylabel('CO2 emission')
 st.pyplot(plt.show())
+
+
+plt.scatter(df['Engine_size'], df['CO2_emission_(g/km)'], color='blue')
+plt.xlabel('Engine size')
+plt.ylabel('CO2 emission')
+st.pyplot(plt.show())
+
+
+# Modelo de Regresion lineal
+st.markdown("<p style='font-size: 20px; text-align: center;'>Modelo de regresion lineal</p>", unsafe_allow_html=True)
+
+msk = np.random.rand(len(df)) < 0.8 #msk = mask. Lista de len(df) numeros aleatorios entre el 0 y 1. aproximadamente el 80% del conjunto (<0.8)
+train = df[msk]
+test = df[~msk]
+
+from sklearn import linear_model
+
+regr = linear_model.LinearRegression()
+train_x = np.asanyarray(train[['Engine_size']])
+train_y = np.asanyarray(train[['CO2_emission_(g/km)']])
+regr.fit(train_x, train_y)
+
+#Coeficientes
+st.text(f'Pendiente: {round(regr.coef_[0][0], 2)}')
+st.text(f'Intersección: {round(regr.intercept_[0], 2)}')
+
+#Grafica del resultado
+plt.scatter(train['Engine_size'], train['CO2_emission_(g/km)'], color='blue')
+plt.plot(train_x, regr.coef_[0][0]*train_x + regr.intercept_[0], '-r')
+plt.xlabel('Engine size')
+plt.ylabel('CO2 emission')
+st.pyplot(plt.show())
+
+#Testeo
+from sklearn.metrics import r2_score
+
+test_x = np.asanyarray(test[['Engine_size']])
+test_y = np.asanyarray(test[['CO2_emission_(g/km)']])
+test_y_ = regr.predict(test_x)
+
+st.text(f'Error medio absoluto: %.2f' % np.mean(np.absolute(test_y_ - test_y)))
+st.text(f'Resudial suma de los cuadrados (MSE): %.2f' % np.mean((test_y_ - test_y)**2))
+st.text(f'R2-score: %.2f' % r2_score(test_y, test_y_))
