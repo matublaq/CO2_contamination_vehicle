@@ -17,24 +17,36 @@ st.markdown("<p style='font-size: 12px;'>No tendremos en cuenta los vehiculos el
 # Data
 df = pd.read_csv('df_fit.csv')
 
-#Cuales son las medias de peso, emisiones, tamano de motor y consumo de combustible
+#####################################################################
+#Cantidad de vehiculos con las diferentes caracteristicas
+st.markdown("<p style='font-size: 25px;'>La mayoria de los autos: </p>", unsafe_allow_html=True)
+st.markdown(f"- <p style='font-size: 15px;'>Pesan {int(df['Mass_(kg)'].mean())}kg</p>", unsafe_allow_html=True)
+st.markdown(f"- <p style='font-size: 15px;'>Tamano del motor {round(df['Engine_size'].mean(), 1)}l</p>", unsafe_allow_html=True)
+st.markdown(f"- <p style='font-size: 15px;'>Consumen {round(df['Fuel_consumption_(l/100km)'].mean(), 1)}l/100km</p>", unsafe_allow_html=True)
+st.markdown(f"- <p style='font-size: 15px;'>Emiten {round(df['CO2_emission_(g/km)'].mean(), 2)}g/km</p>", unsafe_allow_html=True)
+#st.markdown('<br><br>', unsafe_allow_html=True)
+
 gr1 = df[['Mass_(kg)', 'CO2_emission_(g/km)', 'Engine_size', 'Fuel_consumption_(l/100km)']]
 gr1.hist(figsize=(8, 8))
 st.pyplot(plt.show())
 
+st.markdown('<br><br>', unsafe_allow_html=True)
+
+#####################################################################
 #Como se relaciona el consumo del combustible con las emisiones
 plt.scatter(df['Fuel_consumption_(l/100km)'], df['CO2_emission_(g/km)'], color='blue')
 plt.xlabel('Fuel consumption')
 plt.ylabel('CO2 emission')
 st.pyplot(plt.show())
 
+#####################################################################
 #Como se relaciona el tamano del motor con las emisiones
 plt.scatter(df['Engine_size'], df['CO2_emission_(g/km)'], color='blue')
 plt.xlabel('Engine size')
 plt.ylabel('CO2 emission')
 st.pyplot(plt.show())
 
-
+#####################################################################
 # Modelo de Regresion lineal
 st.markdown("<br><br><p style='font-size: 20px; text-align: center; color: orange; text-decoration: underline'>Modelo de regresion lineal</p>", unsafe_allow_html=True)
 
@@ -60,6 +72,7 @@ plt.xlabel('Engine size')
 plt.ylabel('CO2 emission')
 st.pyplot(plt.show())
 
+#####################################################################
 #Testeo
 from sklearn.metrics import r2_score
 
