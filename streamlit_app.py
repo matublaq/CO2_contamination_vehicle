@@ -27,13 +27,15 @@ st.markdown(f"- <p style='font-size: 15px;'>Emiten {round(df['CO2_emission_(g/km
 #st.markdown('<br><br>', unsafe_allow_html=True)
 
 gr1 = df[['Mass_(kg)', 'CO2_emission_(g/km)', 'Engine_size', 'Fuel_consumption_(l/100km)']]
-gr1.hist(figsize=(8, 8))
+gr1.hist(figsize=(12, 8))
 st.pyplot(plt.show())
 
 st.markdown('<br><br>', unsafe_allow_html=True)
 
 #####################################################################
 #Como se relaciona el consumo del combustible con las emisiones
+st.markdown("", unsafe_allow_html=True)
+
 plt.scatter(df['Fuel_consumption_(l/100km)'], df['CO2_emission_(g/km)'], color='blue')
 plt.xlabel('Fuel consumption')
 plt.ylabel('CO2 emission')
