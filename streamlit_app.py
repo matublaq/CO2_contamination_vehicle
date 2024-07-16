@@ -34,7 +34,7 @@ st.markdown('<br><br>', unsafe_allow_html=True)
 
 #####################################################################
 #Como se relaciona el consumo del combustible con las emisiones
-st.markdown("", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 25px;'>Mayor consumo de combustible, mayor contaminacion</p>", unsafe_allow_html=True)
 
 plt.scatter(df['Fuel_consumption_(l/100km)'], df['CO2_emission_(g/km)'], color='blue')
 plt.xlabel('Fuel consumption')
@@ -85,3 +85,11 @@ test_y_ = regr.predict(test_x)
 st.text(f'Error medio absoluto: %.2f' % np.mean(np.absolute(test_y_ - test_y)))
 st.text(f'Resudial suma de los cuadrados (MSE): %.2f' % np.mean((test_y_ - test_y)**2))
 st.text(f'R2-score: %.2f' % r2_score(test_y, test_y_))
+
+##################################################################### #####################################################################
+plt.figure(figsize=(10, 6))
+sns.histplot(df['CO2_emission_(g/km)'], bins=15, kde=True)
+plt.title('Distribucion de emisiones de CO2')
+plt.xlabel('Emisiones de CO2 (g/km)')
+plt.ylabel('Cantidad de vehiculos')
+st.pyplot(plt.show())
