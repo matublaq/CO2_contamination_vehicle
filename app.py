@@ -49,3 +49,35 @@ st.dataframe(df_fit)
 
 #####################################################################
 #Análisis y modelado
+
+corr_matrix = df_fit.corr() #Relacion entre 2 variables. 1 = Ambas variables aumentan en una proporcion fija. -1 = Una crece y al otra crece en una proporcion fija. 0 = Ninguna correlacion 
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+st.pyplot(plt.show())
+st.write(corr_matrix)
+
+#####################################################################
+#Modelo predictivo
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+x = df_fit.drop(columns=['Fuel_consumption_(l/100km)'])
+y = df_fit['Fuel_consumption_(l/100km)']
+
+#Train and test split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+
+#Linear regression model training
+model = LinearRegression()
+model.fit(x_train, y_train)
+
+#Prediction
+y_pred = model.predict(x_test)
+
+#Model evaluation
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+st.text(f'Mean Squared Error: {mse}')
+st.text(f'R^2 Score: {r2}')
