@@ -76,8 +76,39 @@ model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
 
 #Model evaluation
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred) #Media de los cuadrados de los errores. Diferencia promedio al cuadrado entre los valores predichos y los reales.
+r2 = r2_score(y_test, y_pred) #Proporcion de la variacion en la variable dependiente. Que tan bien los datos de entrenamiento se ajustan al modelo
+
 
 st.text(f'Mean Squared Error: {mse}')
 st.text(f'R^2 Score: {r2}')
+
+#####################################################################
+#Interpretacion de los datos y visualizacion
+
+plt.scatter(y_test, y_pred)
+plt.xlabel('Valores reales')
+plt.ylabel('Valores predichos')
+plt.title('Comparacion entre valores reales y predichos')
+st.pyplot(plt.show())
+
+#####################################################################
+#Residuos
+
+residuos = y_test - y_pred
+
+#Grafico residuos vs predichos
+plt.scatter(y_pred, residuos)
+plt.axhline(y=0, color='r', linestyle='--')
+plt.xlabel('Valores predichos')
+plt.ylabel('Residuos')
+plt.title('Grafico de residuos')
+st.pyplot(plt.show())
+
+#Histogrma de residuos
+plt.hist(residuos, bins=30)
+plt.xlabel('Residuos')
+plt.ylabel('Frecuencia')
+plt.title('Histograma de residuos')
+st.pyplot(plt.show())
+
