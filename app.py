@@ -71,7 +71,7 @@ sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
 st.pyplot(plt.show())
 st.write(corr_matrix)
 
-st.markdown("&nbsp;&nbsp;&nbsp; Bajar el consumo de combustible es lo primordial para bajar las emisiones de CO2. <br>&nbsp;&nbsp;&nbsp; La relacion es cercana a perfecta positiva", unsafe_allow_html=True)
+st.markdown("&nbsp;&nbsp;&nbsp; Bajar el consumo de combustible es lo primordial para bajar las emisiones de CO2. La relacion **consumo-emisiones** es cercana a perfecta positiva", unsafe_allow_html=True)
 
 #####################################################################
 #Preprocesamiento y modelo
