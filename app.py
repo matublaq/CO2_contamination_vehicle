@@ -26,9 +26,9 @@ if st.button("Como se limpiaron los datos"):
         html_content = file.read()
     components.html(html_content, height=600, scrolling=True)
 
-st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
-st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
-st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
+#st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
+#st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
+#st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
 st.markdown('--- \n --- \n<br>', unsafe_allow_html=True)
 
 # Data
