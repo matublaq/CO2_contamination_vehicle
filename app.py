@@ -37,18 +37,16 @@ st.markdown("<p style='font-size: 25px; text-align: center;'>Informacion general
 st.dataframe(df.describe())
 
 #Distribucion de las variables
-fig, ax = plt.subplot()
 df.hist(bins=30, figsize=(15, 10))
-st.pyplot(fig)
+st.pyplot()
 st.markdown('---')
 
 #Relacion entre las variables
 container = st.container()
 
 def generate_pairplot():
-    fig, ax = plt.subplot()
     sns.pairplot(df)
-    st.pyplot(fig)
+    st.pyplot()
 st.markdown("<p style='font-size: 25px;'>Relacion entre las variables.</p> Este grafico requiere de 2 min para mostrarse", unsafe_allow_html=True)
 if st.button('Gráfico'):
     generate_pairplot()
@@ -69,9 +67,8 @@ st.markdown("- -1: Correlacion negativa perfecta. Cuando una variable sube, la o
 st.markdown("- 0: No hay correlacion. No hay alguna correlacion entre las variables", unsafe_allow_html=True)
 
 corr_matrix = df_fit[['Mass_(kg)', 'Engine_size', 'Fuel_consumption_(l/100km)', 'CO2_emission_(g/km)']].corr() #Relacion entre 2 variables. 1 = Ambas variables aumentan en una proporcion fija. -1 = Una crece y al otra crece en una proporcion fija. 0 = Ninguna correlacion 
-fig, ax = plt.subplot()
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
-st.pyplot(fig)
+st.pyplot()
 st.write(corr_matrix)
 
 st.markdown("&nbsp;&nbsp;&nbsp; Bajar el consumo de combustible es lo primordial para bajar las emisiones de CO2. La relacion **consumo-emisiones** es cercana a perfecta positiva", unsafe_allow_html=True)
@@ -115,12 +112,11 @@ st.text(f'R^2 Score: {r2}')
 
 #####################################################################
 #Interpretacion de los datos y visualizacion
-fig, ax = plt.subplot()
 plt.scatter(y_test, y_pred)
 plt.xlabel('Valores reales')
 plt.ylabel('Valores predichos')
 plt.title('Comparacion entre valores reales y predichos')
-st.pyplot(fig)
+st.pyplot()
 
 #####################################################################
 #Residuos
@@ -128,19 +124,17 @@ st.pyplot(fig)
 residuos = y_test - y_pred
 
 #Grafico residuos vs predichos
-fig, ax = plt.subplot()
 plt.scatter(y_pred, residuos)
 plt.axhline(y=0, color='r', linestyle='--')
 plt.xlabel('Valores predichos')
 plt.ylabel('Residuos')
 plt.title('Grafico de residuos')
-st.pyplot(fig)
+st.pyplot()
 
 #Histogrma de residuos
-fig, ax = plt.subplot()
 plt.hist(residuos, bins=30)
 plt.xlabel('Residuos')
 plt.ylabel('Frecuencia')
 plt.title('Histograma de residuos')
-st.pyplot(fig)
+st.pyplot()
 
