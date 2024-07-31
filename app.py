@@ -38,7 +38,7 @@ st.dataframe(df.describe())
 
 #Distribucion de las variables
 df.hist(bins=30, figsize=(15, 10))
-st.pyplot(plt.show())
+st.pyplot()
 st.markdown('---')
 
 #Relacion entre las variables
@@ -46,7 +46,7 @@ container = st.container()
 
 def generate_pairplot():
     sns.pairplot(df)
-    st.pyplot(plt.show())
+    st.pyplot()
 st.markdown("<p style='font-size: 25px;'>Relacion entre las variables.</p> Este grafico requiere de 2 min para mostrarse", unsafe_allow_html=True)
 if st.button('Gráfico'):
     generate_pairplot()
@@ -68,7 +68,7 @@ st.markdown("- 0: No hay correlacion. No hay alguna correlacion entre las variab
 
 corr_matrix = df_fit[['Mass_(kg)', 'Engine_size', 'Fuel_consumption_(l/100km)', 'CO2_emission_(g/km)']].corr() #Relacion entre 2 variables. 1 = Ambas variables aumentan en una proporcion fija. -1 = Una crece y al otra crece en una proporcion fija. 0 = Ninguna correlacion 
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
-st.pyplot(plt.show())
+st.pyplot()
 st.write(corr_matrix)
 
 st.markdown("&nbsp;&nbsp;&nbsp; Bajar el consumo de combustible es lo primordial para bajar las emisiones de CO2. La relacion **consumo-emisiones** es cercana a perfecta positiva", unsafe_allow_html=True)
@@ -117,7 +117,7 @@ plt.scatter(y_test, y_pred)
 plt.xlabel('Valores reales')
 plt.ylabel('Valores predichos')
 plt.title('Comparacion entre valores reales y predichos')
-st.pyplot(plt.show())
+st.pyplot()
 
 #####################################################################
 #Residuos
@@ -130,12 +130,12 @@ plt.axhline(y=0, color='r', linestyle='--')
 plt.xlabel('Valores predichos')
 plt.ylabel('Residuos')
 plt.title('Grafico de residuos')
-st.pyplot(plt.show())
+st.pyplot()
 
 #Histogrma de residuos
 plt.hist(residuos, bins=30)
 plt.xlabel('Residuos')
 plt.ylabel('Frecuencia')
 plt.title('Histograma de residuos')
-st.pyplot(plt.show())
+st.pyplot()
 
