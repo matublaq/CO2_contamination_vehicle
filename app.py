@@ -4,6 +4,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import streamlit.components.v1 as components
+
 #st.set_option('deprecation.showPyplotGlobalUse', False) # Eliminamos los warnings
 
 
@@ -12,15 +14,18 @@ st.markdown("<p style='font-size: 10px;'>Los datos utilizados para este proyecto
 st.markdown("<h1 style='text-align: center; text-decoration: underline; color: skyblue;'>Emisiones de CO2 vehiculos</h1>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
-url = ''
-
-
 #
 st.markdown("<p style='font-size: 17px; color: whitebone;'>&nbsp;&nbsp;&nbsp; El <strong>calentamiento global</strong> es un tema mundial. Los gases de efecto invernadero es una de las causas, y segun la union europea, la principal.</p>", unsafe_allow_html=True)
 st.markdown("<p style='font-size: 17px; color: whitebone;'>&nbsp;&nbsp;&nbsp; El <strong>CO2</strong>, dióxido de carbono, es el gas que emiten los vehiculos que utilizan combustible fosil.</p>", unsafe_allow_html=True)
 st.markdown("<p style='font-size: 12px; color: whitebone;'>La UE quiere reducir estas emisiones. Estos son los objetivos. <a href='https://www.europarl.europa.eu/topics/es/article/20180920STO14027/reducir-las-emisiones-de-los-automoviles-nuevos-objetivos-de-co2'>Datos UE</a></p>", unsafe_allow_html=True)
-
 st.markdown("<p style='font-size: 12px;'>No tendremos en cuenta los vehiculos electricos e hibridos</p>", unsafe_allow_html=True)
+
+page1_url = 'pages/clean_data.html'
+if st.button("Como se limpiaron los datos"):
+    with open(page1_url,  'r') as file:
+        html_content = file.read()
+    components.html(html_content, height=600, scrolling=True)
+
 st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
 st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
 st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
