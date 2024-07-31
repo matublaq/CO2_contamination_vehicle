@@ -37,8 +37,8 @@ st.markdown("<p style='font-size: 25px; text-align: center;'>Informacion general
 st.dataframe(df.describe())
 
 #Distribucion de las variables
-fig, ax = plt.subplot(figsize=(15, 10))
-df.hist(bins=30, ax=ax)
+fig, ax = plt.subplot()
+df.hist(bins=30, figsize=(15, 10), ax=ax)
 st.pyplot(fig)
 st.markdown('---')
 
