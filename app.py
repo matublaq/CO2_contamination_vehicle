@@ -115,8 +115,7 @@ y_pred = model.predict(x_test)
 mse = mean_squared_error(y_test, y_pred) #Media de los cuadrados de los errores. Diferencia promedio al cuadrado entre los valores predichos y los reales.
 r2 = r2_score(y_test, y_pred) #Proporcion de la variacion en la variable dependiente. Que tan bien los datos de entrenamiento se ajustan al modelo
 
-
-st.text(f'Mean Squared Error: {mse}')
+st.text(f'El modelo es tan preciso que la diferencia de error entre lo que se predice y lo real es menos a 0.1. Es decir, que se puede confiar ampliamente en las predicciones. \n Mean Squared Error: {mse}')
 st.text(f'R^2 Score: {r2}')
 
 #####################################################################
