@@ -11,17 +11,21 @@ import streamlit.components.v1 as components
 
 
 st.markdown("<p style='font-size: 10px;'>Los datos utilizados para este proyecto, son oficial de la Union Europea. <a href='https://www.eea.europa.eu/en/datahub/datahubitem-view/fa8b1229-3db6-495d-b18e-9c9b3267c02b'>Datos</a></p>", unsafe_allow_html=True)
-st.markdown("<h1 style='text-align: center; text-decoration: underline; color: skyblue;'>Emisiones de CO2 vehiculos</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: skyblue;'>Emisiones de CO2 en vehiculos</h1>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
 #
 st.markdown("<p style='font-size: 17px; color: whitebone;'>&nbsp;&nbsp;&nbsp; El <strong>calentamiento global</strong> es un tema mundial. Los gases de efecto invernadero es una de las causas, y segun la union europea, la principal.</p>", unsafe_allow_html=True)
-st.markdown("<p style='font-size: 17px; color: whitebone;'>&nbsp;&nbsp;&nbsp; El <strong>CO2</strong>, dióxido de carbono, es el gas que emiten los vehiculos que utilizan combustible fosil.</p>", unsafe_allow_html=True)
-st.markdown("<p style='font-size: 12px; color: whitebone;'>La UE quiere reducir estas emisiones. Estos son los objetivos. <a href='https://www.europarl.europa.eu/topics/es/article/20180920STO14027/reducir-las-emisiones-de-los-automoviles-nuevos-objetivos-de-co2'>Datos UE</a></p>", unsafe_allow_html=True)
-st.markdown("<p style='font-size: 12px;'>No tendremos en cuenta los vehiculos electricos e hibridos</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 17px; color: whitebone;'>&nbsp;&nbsp;&nbsp; El <strong>CO2</strong>, dióxido de carbono, es el gas que emiten los vehiculos que utilizan combustible fosil y donde la UE hace hincapié en reducir estas emisiones.</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 12px; color: whitebone;'>Estos son los objetivos. <a href='https://www.europarl.europa.eu/topics/es/article/20180920STO14027/reducir-las-emisiones-de-los-automoviles-nuevos-objetivos-de-co2'>Datos UE</a></p>", unsafe_allow_html=True)
+
+with st.expander("EU objetives 01/02/2026"): 
+    Col1, Col2, Col3 = st.columns([1, 2, 1])
+    with Col2: 
+        st.image("images/EU_objectives_01022026.png", caption="Objetivos de la UE para reducir las emisiones de CO2 en vehiculos", use_container_width=True)
 
 page1_url = 'pages/clean_data.html'
-if st.button("Como se limpiaron los datos"):
+with st.expander("Como se limpiaron los datos", expanded=True):
     with open(page1_url,  'r') as file:
         html_content = file.read()
     components.html(html_content, height=600, scrolling=True)
