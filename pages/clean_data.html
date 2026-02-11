@@ -7515,12 +7515,14 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow.parquet</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pq</span>
 </pre></div>
 </div>
 </div>
@@ -7588,7 +7590,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Limpiado-de-datos"><p style="text-align: center; text-decoration: underline; color: green;">Limpiado de datos</p><a class="anchor-link" href="#Limpiado-de-datos">¶</a></h1><h4 id="El-dataset-contiene-mas-de-14-Gigas-de-informacion-(69.643.588-filas).">El dataset contiene mas de <strong>14 Gigas</strong> de informacion (69.643.588 filas).<a class="anchor-link" href="#El-dataset-contiene-mas-de-14-Gigas-de-informacion-(69.643.588-filas).">¶</a></h4><p>El gran tamano del conjunto de datos trae problemas:</p>
+<h1 id="Limpiado-de-datos"><p style="text-align: center; text-decoration: underline; color: green;">Limpiado de datos</p><a class="anchor-link" href="#Limpiado-de-datos">¶</a></h1><h4 id="El-dataset-contiene-mas-de-16-Gigas-de-informacion-(80.378.486-filas).">El dataset contiene mas de <strong>16 Gigas</strong> de informacion (80.378.486 filas).<a class="anchor-link" href="#El-dataset-contiene-mas-de-16-Gigas-de-informacion-(80.378.486-filas).">¶</a></h4><p>El gran tamano del conjunto de datos trae problemas:</p>
 <ul>
 <li>No puedo subirlo a GitHub (+100MB).</li>
 <li>Lento procesamiento.</li>
@@ -7602,7 +7604,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">'ignore_data.csv'</span>
@@ -7620,8 +7622,583 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Database size:  14.07 GB
+<pre>Database size:  16.38 GB
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_aux</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span> <span class="c1">#10 million rows per chunk</span>
+<span class="c1">#for chunk in df_aux: </span>
+<span class="c1">#    print(chunk.shape)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<table>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Definition</td>
+<td>Datatype </td>
+</tr>
+<tr>
+<td>ID</td>
+<td>Identification number.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>MS</td>
+<td>Member state.</td>
+<td>varchar(2) </td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>Manufacturer pooling.</td>
+<td>varchar(50) </td>
+</tr>
+<tr>
+<td>VFN</td>
+<td>Vehicle family identification number.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Mh</td>
+<td>Manufacturer name EU standard denomination .</td>
+<td>varchar(50) </td>
+</tr>
+<tr>
+<td>Man</td>
+<td>Manufacturer name OEM declaration.</td>
+<td>varchar(50) </td>
+</tr>
+<tr>
+<td>MMS</td>
+<td>Manufacturer name MS registry denomination .</td>
+<td>varchar(125) </td>
+</tr>
+<tr>
+<td>TAN</td>
+<td>Type approval number.</td>
+<td>varchar(50) </td>
+</tr>
+<tr>
+<td>T</td>
+<td>Type.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Va</td>
+<td>Variant.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Ve</td>
+<td>Version.</td>
+<td>varchar(35) </td>
+</tr>
+<tr>
+<td>Mk</td>
+<td>Make.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Cn</td>
+<td>Commercial name.</td>
+<td>varchar(50) </td>
+</tr>
+<tr>
+<td>Ct</td>
+<td>Category of the vehicle type approved.</td>
+<td>varchar(5)  </td>
+</tr>
+<tr>
+<td>Cr</td>
+<td>Category of the vehicle registered.</td>
+<td>varchar(5)  </td>
+</tr>
+<tr>
+<td>M (kg)</td>
+<td>Mass in running order Completed/complete vehicle .</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Mt</td>
+<td>WLTP test mass.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>Enedc (g/km)</td>
+<td>Specific CO2 Emissions (NEDC).</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Ewltp (g/km)</td>
+<td>Specific CO2 Emissions (WLTP).</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>W (mm)</td>
+<td>Wheel Base.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>At1 (mm)</td>
+<td>Axle width steering axle.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>At2 (mm)</td>
+<td>Axle width other axle.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Ft</td>
+<td>Fuel type.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Fm</td>
+<td>Fuel mode.</td>
+<td>varchar(1)  </td>
+</tr>
+<tr>
+<td>Ec (cm3)</td>
+<td>Engine capacity.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Ep (KW)</td>
+<td>Engine power.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Z (Wh/km)</td>
+<td>Electric energy consumption.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Innovative technology or group of innovative technologies.</td>
+<td>varchar(25) </td>
+</tr>
+<tr>
+<td>Ernedc (g/km)</td>
+<td>Emissions reduction through innovative technologies.</td>
+<td>float </td>
+</tr>
+<tr>
+<td>Erwltp (g/km)</td>
+<td>Emissions reduction through innovative technologies (WLTP).</td>
+<td>float </td>
+</tr>
+<tr>
+<td>De</td>
+<td>Deviation factor.</td>
+<td>float </td>
+</tr>
+<tr>
+<td>Vf</td>
+<td>Verification factor.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>R</td>
+<td>Total new registrations.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Year</td>
+<td>Reporting year.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Status</td>
+<td>P = Provisional data, F = Final data.</td>
+<td>varchar(1)  </td>
+</tr>
+<tr>
+<td>Version_file</td>
+<td>Internal versioning of deliverables.</td>
+<td>varchar(10) </td>
+</tr>
+<tr>
+<td>E (g/km)</td>
+<td>Specific CO2 Emission. Deprecated value, only relevant for data until 2016.</td>
+<td>float </td>
+</tr>
+<tr>
+<td>Er (g/km)</td>
+<td>Emissions reduction through innovative technologies. Deprecated value, only relevant for data until 2016.</td>
+<td>float </td>
+</tr>
+<tr>
+<td>Zr</td>
+<td>Electric range.</td>
+<td>integer </td>
+</tr>
+<tr>
+<td>Dr</td>
+<td>Registration date.</td>
+<td>date </td>
+</tr>
+<tr>
+<td>Fc</td>
+<td>Fuel consumption.</td>
+<td>float </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">next</span><span class="p">(</span><span class="n">df_aux</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># First chunk preview</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>Country</th>
+<th>VFN</th>
+<th>Mp</th>
+<th>Mh</th>
+<th>Man</th>
+<th>MMS</th>
+<th>Tan</th>
+<th>T</th>
+<th>Va</th>
+<th>...</th>
+<th>Erwltp (g/km)</th>
+<th>De</th>
+<th>Vf</th>
+<th>Status</th>
+<th>year</th>
+<th>Date of registration</th>
+<th>Fuel consumption</th>
+<th>ech</th>
+<th>RLFI</th>
+<th>Electric range (km)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>280060</td>
+<td>GB</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>OPEL</td>
+<td>ADAM OPEL GMBH</td>
+<td>VAUXHALL</td>
+<td>NaN</td>
+<td>A-H/MONOCAB</td>
+<td>BF11</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2010</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>280060</td>
+<td>GB</td>
+<td>NaN</td>
+<td>VW Group PC</td>
+<td>AUDI AG</td>
+<td>AUDI AG</td>
+<td>AUDI</td>
+<td>NaN</td>
+<td>B8</td>
+<td>LCAKAQ1</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2011</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>2</th>
+<td>280060</td>
+<td>LU</td>
+<td>NaN</td>
+<td>FIAT GROUP AUTOMOBILES SPA</td>
+<td>FIAT GROUP AUTOMOBILES SPA</td>
+<td>FIAT GROUP AUTOMOBILES SPA</td>
+<td>FIAT</td>
+<td>e3*2001/116*0217*23</td>
+<td>199</td>
+<td>BXY1A</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2012</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>3</th>
+<td>280060</td>
+<td>HU</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>HYUNDAI CZECH</td>
+<td>HYUNDAI MOTOR MANUFACTURING CZECH SRO</td>
+<td>Hyundai</td>
+<td>e11*2007/46*0192*04</td>
+<td>ELH</td>
+<td>F5D31</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2013</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>4</th>
+<td>280060</td>
+<td>HU</td>
+<td>NaN</td>
+<td>GENERAL MOTORS</td>
+<td>OPEL</td>
+<td>ADAM OPEL AG</td>
+<td>Opel</td>
+<td>e1*2007/46*0374*14</td>
+<td>0G-A</td>
+<td>CAHBC12</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2014</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>995</th>
+<td>280159</td>
+<td>GB</td>
+<td>NaN</td>
+<td>VW GROUP PC</td>
+<td>VOLKSWAGEN</td>
+<td>VOLKSWAGEN AG</td>
+<td>VOLKSWAGEN</td>
+<td>e1*2007/46*0627*15</td>
+<td>AUV</td>
+<td>VACCUNAX0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2015</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>996</th>
+<td>280159</td>
+<td>AT</td>
+<td>NaN</td>
+<td>VW GROUP PC</td>
+<td>VOLKSWAGEN</td>
+<td>VOLKSWAGEN AG</td>
+<td>VOLKSWAGEN AG</td>
+<td>e1*2007/46*0623*22</td>
+<td>AU</td>
+<td>GAC45CYVAX0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2016</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>997</th>
+<td>280159</td>
+<td>PT</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>VOLVO</td>
+<td>VOLVO CAR CORPORATION</td>
+<td>VOLVO CAR CORPORATION</td>
+<td>e4*2007/46*1067*02</td>
+<td>P</td>
+<td>PZA8</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2017</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>998</th>
+<td>280159</td>
+<td>DK</td>
+<td>NaN</td>
+<td>SUZUKI POOL</td>
+<td>SUZUKI MOTOR CORPORATION</td>
+<td>SUZUKI MOTOR CORPORATION</td>
+<td>SUZUKI MOTOR CORPORATION</td>
+<td>e4*2007/46*1205*01</td>
+<td>AZ</td>
+<td>C53S</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2018</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>999</th>
+<td>280159</td>
+<td>BE</td>
+<td>IP-EHZ____AMN83240-VF3-0</td>
+<td>PSA-OPEL</td>
+<td>AUTOMOBILES PEUGEOT</td>
+<td>AUTOMOBILES PEUGEOT</td>
+<td>AUTOMOBILES PEUGEOT</td>
+<td>E2*2007/46*0534*11</td>
+<td>M</td>
+<td>J</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>F</td>
+<td>2019</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+<p>1000 rows × 40 columns</p>
+</div>
 </div>
 </div>
 </div>
@@ -7642,19 +8219,19 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Obtenemos las columnas del Data Frame</span>
-<span class="n">df_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'ignore_data2.csv'</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'ignore_data.csv'</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'Columnas del data frame crudo: </span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">df_columns</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
 <span class="c1"># Cargamos unicamente las que nos interesan</span>
-<span class="n">df_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'Country'</span><span class="p">,</span> <span class="s1">'Date of registration'</span><span class="p">,</span> <span class="s1">'Enedc (g/km)'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'VFN'</span><span class="p">,</span> <span class="s1">'Mp'</span><span class="p">,</span> <span class="s1">'Man'</span><span class="p">,</span> <span class="s1">'Tan'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">,</span> <span class="s1">'Va'</span><span class="p">,</span> <span class="s1">'Ve'</span><span class="p">,</span> <span class="s1">'MMS'</span><span class="p">,</span> <span class="s1">'Ct'</span><span class="p">,</span> <span class="s1">'Cr'</span><span class="p">,</span> <span class="s1">'Mt'</span><span class="p">,</span> <span class="s1">'W (mm)'</span><span class="p">,</span> <span class="s1">'At1 (mm)'</span><span class="p">,</span> <span class="s1">'At2 (mm)'</span><span class="p">,</span> <span class="s1">'Fm'</span><span class="p">,</span> <span class="s1">'IT'</span><span class="p">,</span> <span class="s1">'Ernedc (g/km)'</span><span class="p">,</span> <span class="s1">'Erwltp (g/km)'</span><span class="p">,</span> <span class="s1">'De'</span><span class="p">,</span><span class="s1">'Vf'</span><span class="p">,</span> <span class="s1">'Status'</span><span class="p">,</span> <span class="s1">'ech'</span><span class="p">,</span> <span class="s1">'RLFI'</span><span class="p">,</span> <span class="s1">'Mh'</span><span class="p">,</span> <span class="s1">'z (Wh/km)'</span><span class="p">,</span> <span class="s1">'ep (KW)'</span><span class="p">,</span> <span class="s1">'Mk'</span><span class="p">,</span> <span class="s1">'Cn'</span><span class="p">,</span> <span class="s1">'Electric range (km)'</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">columns_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ID'</span><span class="p">,</span> <span class="s1">'m (kg)'</span><span class="p">,</span> <span class="s1">'Ewltp (g/km)'</span><span class="p">,</span> <span class="s1">'Ft'</span><span class="p">,</span> <span class="s1">'ec (cm3)'</span><span class="p">,</span> <span class="s1">'Fuel consumption '</span><span class="p">]</span>
-
+<span class="n">df_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Enedc (g/km)'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'VFN'</span><span class="p">,</span> <span class="s1">'Mp'</span><span class="p">,</span> <span class="s1">'Man'</span><span class="p">,</span> <span class="s1">'Tan'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">,</span> <span class="s1">'Va'</span><span class="p">,</span> <span class="s1">'Ve'</span><span class="p">,</span> <span class="s1">'Cr'</span><span class="p">,</span> <span class="s1">'Mt'</span><span class="p">,</span> <span class="s1">'W (mm)'</span><span class="p">,</span> <span class="s1">'At1 (mm)'</span><span class="p">,</span> <span class="s1">'At2 (mm)'</span><span class="p">,</span> <span class="s1">'IT'</span><span class="p">,</span> <span class="s1">'Ernedc (g/km)'</span><span class="p">,</span> <span class="s1">'De'</span><span class="p">,</span><span class="s1">'Vf'</span><span class="p">,</span> <span class="s1">'Status'</span><span class="p">,</span> <span class="s1">'ech'</span><span class="p">,</span> <span class="s1">'RLFI'</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">columns_to_load</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ID'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">,</span> <span class="s1">'Country'</span><span class="p">,</span> <span class="s1">'Mh'</span><span class="p">,</span> <span class="s1">'z (Wh/km)'</span><span class="p">,</span> <span class="s1">'ep (KW)'</span><span class="p">,</span> <span class="s1">'Mk'</span><span class="p">,</span> <span class="s1">'Cn'</span><span class="p">,</span> <span class="s1">'Electric range (km)'</span><span class="p">,</span> <span class="s1">'m (kg)'</span><span class="p">,</span> <span class="s1">'Ewltp (g/km)'</span><span class="p">,</span> <span class="s1">'Ft'</span><span class="p">,</span> <span class="s1">'ec (cm3)'</span><span class="p">,</span> <span class="s1">'Fuel consumption '</span><span class="p">,</span> <span class="s1">'MMS'</span><span class="p">]</span>
+<span class="c1"># 'year', 'Country', 'Date of registration', 'Enedc (g/km)', 'r', 'VFN', 'Mp', 'Man', 'Tan', 'T', 'Va', 'Ve', 'MMS', 'Ct', 'Cr', 'Mt', 'W (mm)', 'At1 (mm)', 'At2 (mm)', 'Fm', 'IT', 'Ernedc (g/km)', 'Erwltp (g/km)', 'De','Vf', 'Status', 'ech', 'RLFI', '</span>
 <span class="c1"># Separamos la informacion en fragmentos de 1 millon para que la computadora no se sobresature</span>
-<span class="n">df_crud</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'ignore_data2.csv'</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">columns_to_load</span><span class="p">)</span>
+<span class="n">df_crud</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'ignore_data.csv'</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">columns_to_load</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n\n</span><span class="s1">Columnas que nos sirven para el proyecto: </span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="n">df_columns</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 </pre></div>
@@ -7680,8 +8257,45 @@ a.anchor-link {
 
 
 Columnas que nos sirven para el proyecto: 
- Index(['ID', 'm (kg)', 'Ewltp (g/km)', 'Ft', 'ec (cm3)', 'Fuel consumption '], dtype='object')
+ Index(['ID', 'Country', 'Mh', 'MMS', 'Mk', 'Cn', 'Ct', 'm (kg)',
+       'Ewltp (g/km)', 'Ft', 'Fm', 'ec (cm3)', 'ep (KW)', 'z (Wh/km)',
+       'Erwltp (g/km)', 'year', 'Date of registration', 'Fuel consumption ',
+       'Electric range (km)'],
+      dtype='object')
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cambiamos de nombre algunas columnas</span>
+<span class="n">rename_columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'m (kg)'</span><span class="p">:</span> <span class="s1">'Mass_(kg)'</span><span class="p">,</span> <span class="s1">'Ewltp (g/km)'</span><span class="p">:</span> <span class="s1">'CO2_emission_(g/km)'</span><span class="p">,</span> <span class="s1">'Ft'</span><span class="p">:</span> <span class="s1">'Fuel_type'</span><span class="p">,</span> <span class="s1">'ec (cm3)'</span><span class="p">:</span> <span class="s1">'Engine_size_cm3'</span><span class="p">,</span> <span class="s1">'Fuel consumption '</span><span class="p">:</span> <span class="s1">'Fuel_consumption_(l/100km)'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">:</span> <span class="s1">'Year_of_fabrication'</span><span class="p">,</span> <span class="s1">'Mh'</span><span class="p">:</span> <span class="s1">'Manufacturer'</span><span class="p">,</span> <span class="s1">'z (Wh/km)'</span><span class="p">:</span> <span class="s1">'Energy_consumption_(Wh/km)'</span><span class="p">,</span> <span class="s1">'ep (KW)'</span><span class="p">:</span> <span class="s1">'Electric_power_(KW)'</span><span class="p">,</span> <span class="s1">'Mk'</span><span class="p">:</span> <span class="s1">'Model'</span><span class="p">,</span> <span class="s1">'Cn'</span><span class="p">:</span> <span class="s1">'Commercial_name'</span><span class="p">,</span> <span class="s1">'Electric range (km)'</span><span class="p">:</span> <span class="s1">'Electric_range_(km)'</span><span class="p">,</span> <span class="s1">'MMS'</span><span class="p">:</span> <span class="s1">'Manufacturar_name'</span><span class="p">}</span>
+
+<span class="n">parquet_dir</span> <span class="o">=</span> <span class="s1">'ignore_df_data_clean_parquets'</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">parquet_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Create directory if it doesn't exist</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_crud</span><span class="p">):</span> 
+    <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_columns</span><span class="p">)</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'Mass_(kg)'</span><span class="p">,</span> <span class="s1">'Fuel_type'</span><span class="p">,</span> <span class="s1">'Year_of_fabrication'</span><span class="p">])</span> <span class="c1"># Drop rows where all elements are NaN</span>
+
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">chunk</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"commercial_name"</span><span class="p">:</span> 
+            <span class="n">chunk</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
+
+    <span class="n">chunk</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parquet_dir</span><span class="si">}</span><span class="s2">/part_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.parquet"</span><span class="p">,</span>
+        <span class="n">engine</span><span class="o">=</span><span class="s1">'pyarrow'</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="s1">'snappy'</span><span class="p">,</span> 
+        <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -7691,27 +8305,22 @@ Columnas que nos sirven para el proyecto:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Creamos el dataframe que utilisaremos</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">df_columns</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
-<span class="c1"># Cambiamos de nombre algunas columnas</span>
-<span class="n">rename_columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'m (kg)'</span><span class="p">:</span> <span class="s1">'Mass_(kg)'</span><span class="p">,</span> <span class="s1">'Ewltp (g/km)'</span><span class="p">:</span> <span class="s1">'CO2_emission_(g/km)'</span><span class="p">,</span> <span class="s1">'Ft'</span><span class="p">:</span> <span class="s1">'Fuel_type'</span><span class="p">,</span> <span class="s1">'ec (cm3)'</span><span class="p">:</span> <span class="s1">'Engine_size_cm3'</span><span class="p">,</span> <span class="s1">'Fuel consumption '</span><span class="p">:</span> <span class="s1">'Fuel_consumption_(l/100km)'</span><span class="p">}</span>
-<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_columns</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">'parquet_unificados'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">df_crud</span><span class="p">:</span>
+<span class="c1"># Carpeta donde están tus 78 archivos y carpeta nueva para los unificados</span>
+<span class="n">input_files</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parquet_dir</span><span class="si">}</span><span class="s2">/*.parquet"</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s2">"parquet_unificados"</span>
 
-    <span class="n">chunk</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_columns</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
-    <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-    
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">chunk</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-<span class="c1"># Lo guardo en un archivo aparte para evitar volver a ejecutar esta celda</span>
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'ignore_df_data_clean.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">    COPY (SELECT * FROM '</span><span class="si">{</span><span class="n">input_files</span><span class="si">}</span><span class="s2">') </span>
+<span class="s2">    TO '</span><span class="si">{</span><span class="n">output_folder</span><span class="si">}</span><span class="s2">' </span>
+<span class="s2">    (FORMAT PARQUET, OVERWRITE_OR_IGNORE TRUE);</span>
+<span class="s2">"""</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7724,15 +8333,19 @@ Columnas que nos sirven para el proyecto:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\matia\AppData\Local\Temp\ipykernel_22028\1486211447.py:13: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
-  df = pd.concat([df, chunk], ignore_index=True)
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>(23869031, 6)
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">IOException</span>                               Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[46]</span><span class="ansi-green-fg">, line 9</span>
+<span class="ansi-green-fg">      6</span> input_files = <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>parquet_dir<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">/*.parquet</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">      7</span> output_folder = <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">parquet_unificados</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span> <span class="ansi-yellow-bg">con</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">execute</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">f</span><span class="ansi-yellow-fg ansi-yellow-bg">"""</span>
+<span class="ansi-green-fg">     10</span> <span class="ansi-yellow-fg ansi-yellow-bg">    COPY (SELECT * FROM </span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">{</span><span class="ansi-yellow-bg">input_files</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">) </span>
+<span class="ansi-green-fg">     11</span> <span class="ansi-yellow-fg ansi-yellow-bg">    TO </span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">{</span><span class="ansi-yellow-bg">output_folder</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg"> </span>
+<span class="ansi-green-fg">     12</span> <span class="ansi-yellow-fg ansi-yellow-bg">    (FORMAT PARQUET, OVERWRITE_OR_IGNORE TRUE);</span>
+<span class="ansi-green-fg">     13</span> <span class="ansi-yellow-fg ansi-yellow-bg">"""</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">IOException</span>: IO Error: Cannot open file "parquet_unificados": Access is denied.
 </pre>
 </div>
 </div>
