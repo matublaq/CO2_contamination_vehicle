@@ -24,9 +24,9 @@ with st.expander("EU objetives 01/02/2026"):
     with Col2: 
         st.image("images/EU_objectives_01022026.png", caption="Objetivos de la UE para reducir las emisiones de CO2 en vehiculos", use_container_width=True)
 
-page1_url = 'pages/clean_data.html'
+page1_url = 'pages/1_clean_data.html'
 with st.expander("Como se limpiaron los datos", expanded=True):
-    with open(page1_url,  'r') as file:
+    with open(page1_url,  'r', encoding='utf-8') as file:
         html_content = file.read()
     components.html(html_content, height=600, scrolling=True)
 
