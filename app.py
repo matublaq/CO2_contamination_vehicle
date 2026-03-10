@@ -4,6 +4,9 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import polars as pl
+import duckdb
+
 import streamlit.components.v1 as components
 
 #st.set_option('deprecation.showPyplotGlobalUse', False) # Eliminamos los warnings
@@ -35,14 +38,17 @@ with st.expander("Como se limpiaron los datos", expanded=True):
 #st.markdown("- <p style='font-size: 25px; color: orange;'>buenas</p>", unsafe_allow_html=True)
 st.markdown('--- \n --- \n<br>', unsafe_allow_html=True)
 
-# Data
+# Data loading, 2 different formats. CSV and Parquet. El formato parquet es mas eficiente para grandes conjuntos de datos, ya que es un formato de almacenamiento en columna que permite una compresion y un acceso mas rapido a los datos. El formato csv es un formato de texto plano que puede ser mas facil de leer y manipular, pero puede ser menos eficiente para grandes conjuntos de datos.
 df = pd.read_csv('df_fit.csv')
 df.drop(columns=['ID'], inplace=True)
+
+df_parquet = pl.scan_parquet('ignore_data_complete_clean.parquet')
 
 #####################################################################
 #Información general
 
 st.markdown("<p style='font-size: 25px; text-align: center;'>Informacion general de los datos</p>", unsafe_allow_html=True)
+st.dataframe(df_parquet.describe())
 st.dataframe(df.describe())
 
 #Distribucion de las variables
@@ -69,7 +75,7 @@ st.markdown('--- \n <br>', unsafe_allow_html=True)
 
 df_fit = df
 df_fit = pd.get_dummies(df_fit, columns=['Fuel_type'])
-df_fit.rename(columns={'Fuel_type_petrol': 'petrol', 'Fuel_type_diesel': 'diesel'})
+df_fit.rename(columns={'Fuel_type_petrol': 'petrol', 'Fuel_type_diesel': 'diesel', 'Fuel_type_electric': 'electric'}, inplace=True)
 
 
 st.markdown("<p style='font-size: 25px; text-align: center;'>Mapa de calor</p>", unsafe_allow_html=True)
