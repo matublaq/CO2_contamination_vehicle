@@ -1,0 +1,20 @@
+{
+  "id": "2a742ad2ee164b43a9e2f417e2e9a567",
+  "tags": [
+    {
+      "title": "SQLite3",
+      "color": "#61DD61",
+      "textcolor": "white"
+    },
+    {
+      "title": "DuckDB",
+      "color": "#61DD61",
+      "textcolor": "white"
+    },
+    {
+      "title": "Polars",
+      "color": "#61DD61",
+      "textcolor": "white"
+    }
+  ]
+}

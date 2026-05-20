@@ -1,18 +1,10 @@
-<<<<<<< HEAD
 numpy
 pandas
+polars
+duckdb
+pyarrow
 streamlit
-altair == 4.2.2
+altair
 matplotlib
 seaborn
 scikit-learn
-=======
-numpy
-pandas
-streamlit
-altair == 4.2.2
-matplotlib
-seaborn
-scikit-learn
->>>>>>> c139f82e4508ed4f007828b4e850cf7f581a47a8
-solara

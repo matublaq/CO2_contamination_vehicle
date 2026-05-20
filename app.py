@@ -49,7 +49,7 @@ df_parquet = pl.scan_parquet('ignore_data_complete_clean.parquet')
 
 st.markdown("<p style='font-size: 25px; text-align: center;'>Informacion general de los datos</p>", unsafe_allow_html=True)
 st.dataframe(df_parquet.describe())
-st.dataframe(df.describe())
+#st.dataframe(df.describe())
 
 #Distribucion de las variables
 fig, ax = plt.subplots(figsize=(15, 10))
